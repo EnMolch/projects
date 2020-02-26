@@ -1,12 +1,12 @@
 """
 Snack_V3 Opjektorientierter Automat mit Nutzerkonten
 """
-Produkt_Namen = ["Mars","Molch", "Schrödigners Katze", "Sicke plays", "Pornobalken zum Aufkleben",
+Produkt_Namen = ["Mars","Molch", "Schrödingers Katze", "Sicke plays", "Pornobalken zum Aufkleben",
                 "Goethes Faust", "Goethes flache Hand", "Waldesel", "P90", "B-rush"]
 Produkt_Preise = [1.2, 1.3, 1, 0.5, 3.5, 0.7, 0.6, 4.20, 0.99, 3]
 Produkt_Anzahl = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 Nutzer_Daten = []
-Produkt_Array = [0,0,0,0,0,0,0,0,0,0]
+Produkt_Array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 class Produkte:
 
     def __init__(self, Name, Preis, Anzahl):
@@ -69,6 +69,24 @@ class Nutzer:
     def Ausloggen(self):
         self.Logged_In = 0
         Nutzer_Daten[Nutzer_Daten.index(self.Bname)+2] = self.Konto
+        File_Handle = open("save.txt", "w")
+        for i in range(len(Nutzer_Daten)):
+            if i != 0:
+                File_Handle.write(",")
+            File_Handle.write(str(Nutzer_Daten[i]))
+            if i%3 == 2:
+                File_Handle.write(";")
+        File_Handle.write("\n")
+        for i in range(len(Produkt_Anzahl)):
+            if i!= 0:
+                File_Handle.write(",")
+            File_Handle.write(str(Produkt_Anzahl[i]))
+            if i%10 == 9:
+                File_Handle.write(";")
+        
+        File_Handle.close()
+        
+           
         #Daten ins file schreiben
 
         
@@ -129,12 +147,10 @@ if __name__ == "__main__":
             if Reg_Einlog >0:
                 User_Identity.Registrieren()
                 Automat_Instanz = Snacc()
-                #Automat_Instanz.Produkt_Init()
 
             else: 
                 User_Identity.Einloggen()
                 Automat_Instanz = Snacc()
-                #Automat_Instanz.Produkt_Init()
 
             while (User_Identity.Logged_In):
                 Automat_Instanz.Produkt_Init()
