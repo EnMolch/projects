@@ -6,6 +6,7 @@ Produkt_Namen = ["Mars","Molch", "Schrödigners Katze", "Sicke plays", "Pornobal
 Produkt_Preise = [1.2, 1.3, 1, 0.5, 3.5, 0.7, 0.6, 4.20, 0.99, 3]
 Produkt_Anzahl = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 Nutzer_Daten = []
+Produkt_Array = []
 class Produkte:
 
     def __init__(self, Name, Preis, Anzahl):
@@ -86,7 +87,7 @@ class Snacc:
         Kontostand = ID.Get_Konto()
 
         try:
-            Konto_Cache = round(float(input("Wie viel wollen sie einzahlen?")),2)
+            Konto_Cache = round(float(input("Wie viel wollen sie einzahlen?")), 2)
 
             if Konto_Cache > 0:
                 Kontostand = Kontostand + Konto_Cache
@@ -98,10 +99,16 @@ class Snacc:
         except ValueError:
             print("Geben sie nur gültige Werte ein! \n")
     
-    def Kaufen(self, Name, Preis, Bname):
-        if Preis < Bname.Get_Konto:
-            Bname.set_Konto(Bname.Get_Konto - Preis)
-            print(f"viel spass mit {Name}")
+    def Kaufen(self, Name, Preis, Stonks, Bname):
+        if Stonks >0:    
+            if Preis < Bname.Get_Konto:
+                Bname.set_Konto(Bname.Get_Konto - Preis)
+                print(f"viel spass mit {Name}")
+                Produkt_Anzahl[Produkt_Namen.index(Name)] = Produkt_Anzahl[Produkt_Namen.index(Name)] -1
+    
+    def Produkt_Init(self):
+        for i in range(0,len(Produkt_Namen), 3):
+            Produkt_Array[i] = Produkte(Produkt_Namen[i], Produkt_Preise[i], Produkt_Anzahl[i])
 
 
 
@@ -114,17 +121,20 @@ if __name__ == "__main__":
             print(Reg_Einlog)
         except ValueError:
             print("Keine valide Option")
-       # for i in range(9):
-         #   str(Produkt_Namen[i])= Produkte(Produkt_Namen[i], Produkt_Preise[i], Produkt_Anzahl[i])                         
         User_Identity = Nutzer(Bname_In, Pw_In)            #Fallunterscheidung in Neu oder Alt
+
         if Reg_Einlog:
             User_Identity.Registrieren()
             Automat_Instanz = Snacc()
+            Automat_Instanz.Produkt_Init()
+
         else: 
             User_Identity.Einloggen()
             Automat_Instanz = Snacc()
+            Automat_Instanz.Produkt_Init()
+
         while (User_Identity.Logged_In):
-            
+            Automat_Instanz.Produkt_Init()
             Input_Cache = input("""Willkommen beim Snacc!
             Was wollen sie tun?
                 Einzahlen   [1]
@@ -136,7 +146,9 @@ if __name__ == "__main__":
                 
 
             elif Input_Cache == "2":
-                pass
+                for i in Produkt_Array:
+                    print(i)
+                #Automat_Instanz.Kaufen()
 
             elif Input_Cache == "3":
                 User_Identity.Ausloggen()
