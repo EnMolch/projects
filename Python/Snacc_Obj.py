@@ -2,15 +2,14 @@
 Snack_V3 Opjektorientierter Automat mit Nutzerkonten
 """
 import math
-Produkt_Namen = ["Mars","Molch", "Schrödingers Katze", "Sicke plays", "Pornobalken zum Aufkleben",
+PRODUKT_NAMEN = ["Mars","Molch", "Schrödingers Katze", "Sicke plays", "Pornobalken zum Aufkleben",
                 "Goethes Faust", "Goethes flache Hand", "Waldesel", "P90", "B-rush"]
-Produkt_Preise = [1.2, 1.3, 1, 0.5, 3.5, 0.7, 0.6, 4.20, 0.99, 3]
-Produkt_Anzahl = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+PRODUKT_PREIS = [1.2, 1.3, 1, 0.5, 3.5, 0.7, 0.6, 4.20, 0.99, 3]
+PRODUKT_ANZAHL = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 Nutzer_Daten = []
-Produkt_Array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-Address_Offset = 0
-Produkt_Test = []
-Produkt_Lager_Hilfe = []
+PRODUKT_ARRAY = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+ADDRESS_OFFSET = 0
+PRODUKT_LAGER_HILFE = []
 class Produkte:
 
     def __init__(self, Name, Preis, Anzahl):
@@ -81,10 +80,10 @@ class Nutzer:
             File_Handle.write(str(Nutzer_Daten[i]))
         File_Handle.write(",")
         File_Handle.write("\n")
-        for i in range(len(Produkt_Lager_Hilfe)):
+        for i in range(len(PRODUKT_LAGER_HILFE)):
             if i!= 0:
                 File_Handle.write(",")
-            File_Handle.write(str(Produkt_Lager_Hilfe[i]))
+            File_Handle.write(str(PRODUKT_LAGER_HILFE[i]))
         
         File_Handle.close()
 
@@ -126,13 +125,13 @@ class Snacc:
             if Preis < Kontostand:
                 ID.Set_Konto(Kontostand - Preis)
                 print(f"viel spass mit {Name}")
-                Produkt_Anzahl[Produkt_Namen.index(Name)] = int(Produkt_Anzahl[Produkt_Namen.index(Name)]) -1
-                Produkt_Lager_Hilfe[Produkt_Namen.index(Name)+Address_Offset] = int(Produkt_Lager_Hilfe[Produkt_Namen.index(Name)+Address_Offset]) -1
+                PRODUKT_ANZAHL[PRODUKT_NAMEN.index(Name)] = int(PRODUKT_ANZAHL[PRODUKT_NAMEN.index(Name)]) -1
+                PRODUKT_LAGER_HILFE[PRODUKT_NAMEN.index(Name)+ADDRESS_OFFSET] = int(PRODUKT_LAGER_HILFE[PRODUKT_NAMEN.index(Name)+ADDRESS_OFFSET]) -1
             else:
                 print("Sieh den Monopolkapitalist, der dich mit Haut und Haaren frist!")
     def Produkt_Init(self, ID):
-        for i in range(len(Produkt_Namen)):
-            Produkt_Array[i] = Produkte(Produkt_Namen[i], Produkt_Preise[i], Produkt_Anzahl[i])
+        for i in range(len(PRODUKT_NAMEN)):
+            PRODUKT_ARRAY[i] = Produkte(PRODUKT_NAMEN[i], PRODUKT_PREIS[i], PRODUKT_ANZAHL[i])
 
 
 
@@ -146,13 +145,13 @@ if __name__ == "__main__":
         Nutzer_Daten.pop()
         print(Nutzer_Daten)
 
-        Produkt_Lager_Hilfe = []
-        Produkt_Anzahl = []
-        Produkt_Lager_Hilfe.extend(File_Handle.readline().split(","))
-        Address_Offset = (math.floor(float(Nutzer_Daten.index(Bname_In))/3))*10
+        PRODUKT_LAGER_HILFE = []
+        PRODUKT_ANZAHL = []
+        PRODUKT_LAGER_HILFE.extend(File_Handle.readline().split(","))
+        ADDRESS_OFFSET = (math.floor(float(Nutzer_Daten.index(Bname_In))/3))*10
         for i in range(10):
-            Produkt_Anzahl.extend(Produkt_Lager_Hilfe[i+Address_Offset])
-        print(Produkt_Anzahl)
+            PRODUKT_ANZAHL.extend(PRODUKT_LAGER_HILFE[i+ADDRESS_OFFSET])
+        print(PRODUKT_ANZAHL)
 
         File_Handle.close()
 
@@ -183,15 +182,15 @@ if __name__ == "__main__":
                     
 
                 elif Input_Cache == "2":
-                    for i in range(len(Produkt_Array)):
-                        print(Address_Offset)
-                        print(Produkt_Array[i].GetName(), "    ", Produkt_Array[i].GetKosten(),"    " ,Produkt_Array[i].GetLager())
+                    for i in range(len(PRODUKT_ARRAY)):
+                        print(ADDRESS_OFFSET)
+                        print(PRODUKT_ARRAY[i].GetName(), "    ", PRODUKT_ARRAY[i].GetKosten(),"    " ,PRODUKT_ARRAY[i].GetLager())
                     Name_Buy = str(input("Bitte den Namen des gewünschten Produktes eingeben: "))
                     
-                    if Name_Buy in Produkt_Namen:
-                        Temp_Index = Produkt_Namen.index(Name_Buy)
-                        Temp_Preise = Produkt_Preise[Temp_Index]
-                        Temp_Anzahl = int(Produkt_Anzahl[Temp_Index])
+                    if Name_Buy in PRODUKT_NAMEN:
+                        Temp_Index = PRODUKT_NAMEN.index(Name_Buy)
+                        Temp_Preise = PRODUKT_PREIS[Temp_Index]
+                        Temp_Anzahl = int(PRODUKT_ANZAHL[Temp_Index])
                         Automat_Instanz.Kaufen(Name_Buy, Temp_Preise , Temp_Anzahl, User_Identity)
 
                     else:
